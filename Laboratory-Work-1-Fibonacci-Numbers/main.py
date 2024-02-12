@@ -40,13 +40,51 @@ def fibonacci_dynamic(nth_term):
     return lst[nth_term]
 
 
-if __name__ == '__main__':
-    pretty_table = PrettyTable()
-    time_values = []
-    fibonacci_values = []
+pretty_table = PrettyTable()
+time_values = []
+fibonacci_values = []
+terms_list_short = [5, 7, 10, 12, 15, 17, 20, 22, 25, 27, 30, 32]
+terms_list_long = [500, 1000, 1585, 2512, 4000, 6310, 10000, 15849, 25000, 50000, 100000]
+function_names = ["fibonacci_iterative", "fibonacci_dynamic"]
 
-    terms_list_short = [5, 7, 10, 12, 15, 17, 20, 22, 25, 27, 30, 32, 35, 37, 40, 42, 45]
-    terms_list_long = [500, 1000, 1585, 2512, 4000, 6310, 10000, 15849, 25000, 50000, 100000]
+
+def checker(function_name, type_list):
+    function_name_out = function_name.split("_")[1].capitalize()
+    terms_list = terms_list_short if type_list == "short" else terms_list_long
+    for term in terms_list:
+        start_time = time.perf_counter()
+        value = globals()[function_name](term)
+        elapsed_time = time.perf_counter()
+        elapsed_time = elapsed_time - start_time
+        time_values.append(elapsed_time)
+
+
+    plt.plot(terms_list,
+             time_values,
+             marker="o")
+    plt.title(f"Growth of Time Complexity in {function_name_out} Fibonacci Series")
+    plt.xlabel("n-th term")
+    plt.ylabel("Time (s)")
+    plt.grid(True)
+    plt.show()
+
+    pretty_table.add_column("n-th Term", terms_list)
+    pretty_table.add_column("Time (s)", time_values)
+
+
+    print(pretty_table)
+
+
+if __name__ == '__main__':
+    for function_name in function_names:
+        pretty_table.clear()
+        fibonacci_values.clear()
+        time_values.clear()
+
+        print("APPROACH:", function_name.split("_")[1].capitalize())
+        checker(function_name, "long")
+
+
 
     # RECURSIVE APPROACH
 
@@ -54,7 +92,7 @@ if __name__ == '__main__':
     #     start_time = time.perf_counter()
     #     value = fibonacci_recursive(term)
     #     elapsed_time = time.perf_counter()
-    #     elapsed_time = round(elapsed_time - start_time, 6)
+    #     elapsed_time = elapsed_time - start_time
     #     time_values.append(elapsed_time)
     #     fibonacci_values.append(value)
     #
@@ -67,8 +105,10 @@ if __name__ == '__main__':
     # plt.grid(True)
     # plt.show()
     #
-    # pretty_table.field_names = ["n"] + terms_list_short
-    # pretty_table.add_row(["Time(s)"] + time_values)
+    # pretty_table.add_column("n-th Term", terms_list_short)
+    # pretty_table.add_column("Time (s)", time_values)
+    # pretty_table.add_column("Fibonacci Value", fibonacci_values)
+    #
     # print(pretty_table)
 
     # ITERATIVE APPROACH
@@ -102,42 +142,43 @@ if __name__ == '__main__':
     #              )
     # plt.show()
     #
-    # pretty_table.field_names = ["n"] + terms_list_short
-    # pretty_table.add_row(["Time(s)"] + time_values)
+    # pretty_table.add_column("n-th term", terms_list_short)
+    # pretty_table.add_column("Time (s)", time_values)
+    # pretty_table.add_column("Fibonacci Value", fibonacci_values)
     # print(pretty_table)
 
     # DYNAMIC PROGRAMMING APPROACH
-    pretty_table.clear()
-    fibonacci_values.clear()
-    time_values.clear()
-    for term in terms_list_long:
-        start_time = time.perf_counter()
-        value = fibonacci_dynamic(term)
-        elapsed_time = time.perf_counter()
-        elapsed_time = round(elapsed_time - start_time, 6)
-        time_values.append(elapsed_time)
-        fibonacci_values.append(value)
+    # pretty_table.clear()
+    # fibonacci_values.clear()
+    # time_values.clear()
+    # for term in terms_list_long:
+    #     start_time = time.perf_counter()
+    #     value = fibonacci_dynamic(term)
+    #     elapsed_time = time.perf_counter()
+    #     elapsed_time = round(elapsed_time - start_time, 6)
+    #     time_values.append(elapsed_time)
+    #     fibonacci_values.append(value)
 
-    plt.plot(terms_list_long,
-             time_values,
-             marker="o")
-    plt.title("Growth of Time Complexity in Dynamic Programming Algorithm for Fibonacci Series")
-    plt.xlabel("n-th term")
-    plt.ylabel("Time (s)")
-    plt.grid(True)
-    for i in range(len(terms_list_long)):
-        plt.text(terms_list_long[i],
-                 time_values[i] + 0.001,
-                 str(f"n={terms_list_long[i]} | ts={round(time_values[i], 12)}"),
-                 ha='center',
-                 bbox=dict(
-                     facecolor='white',
-                     edgecolor='black',
-                     boxstyle='round,pad=0.5')
-                 )
-    plt.show()
-
-    pretty_table.field_names = ["n"] + terms_list_long
-    pretty_table.add_row(["Time(s)"] + time_values)
-    pretty_table.add_row(["nth Term"] + fibonacci_values)  # TODO: fix print
-    print(pretty_table)
+    # plt.plot(terms_list_long,
+    #          time_values,
+    #          marker="o")
+    # plt.title("Growth of Time Complexity in Dynamic Programming Algorithm for Fibonacci Series")
+    # plt.xlabel("n-th term")
+    # plt.ylabel("Time (s)")
+    # plt.grid(True)
+    # for i in range(len(terms_list_long)):
+    #     plt.text(terms_list_long[i],
+    #              time_values[i] + 0.001,
+    #              str(f"n={terms_list_long[i]} | ts={round(time_values[i], 12)}"),
+    #              ha='center',
+    #              bbox=dict(
+    #                  facecolor='white',
+    #                  edgecolor='black',
+    #                  boxstyle='round,pad=0.5')
+    #              )
+    # plt.show()
+    #
+    # pretty_table.field_names = ["n"] + terms_list_long
+    # pretty_table.add_row(["Time(s)"] + time_values)
+    # pretty_table.add_row(["nth Term"] + fibonacci_values)  # TODO: fix print
+    # print(pretty_table)
