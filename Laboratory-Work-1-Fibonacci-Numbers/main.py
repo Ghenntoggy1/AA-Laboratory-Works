@@ -9,8 +9,6 @@ from decimal import Decimal, getcontext
 
 
 def fibonacci_recursive(nth_term):
-    if nth_term < 0:
-        return "Invalid input"
     if nth_term <= 1:
         return nth_term
     return fibonacci_recursive(nth_term - 1) + fibonacci_recursive(nth_term - 2)
@@ -123,6 +121,13 @@ def clear_lists():
     time_values.clear()
 
 
+def print_short_comparison(type_list):
+    comparison_table.add_column("nth Term", terms_list_short if type_list == "short" else terms_list_long)
+    for key, word in all_values.items():
+        print(key, word)
+        comparison_table.add_column(key, word)
+    print(comparison_table)
+
 def plot_methods_values(type_list, function_name):
     plt.plot(terms_list_short if type_list == "short" else terms_list_long,
              time_values,
@@ -135,16 +140,19 @@ def plot_methods_values(type_list, function_name):
 
 
 if __name__ == '__main__':
+    comparison_table = PrettyTable()
+
     pretty_table = PrettyTable()
     time_values = []
     fibonacci_values = []
+
+    all_values = {}
 
     terms_list_short = [5, 7, 10, 12, 15, 17, 20, 22, 25, 27, 30, 32, 35, 37, 40, 42, 45]
     terms_list_long = [500, 1000, 1585, 2512, 4000, 6310, 10000, 15849, 25000, 50000, 100000, 150000, 200000]
 
     # RECURSIVE APPROACH
     # print("APPROACH: RECURSIVE")
-    # clear_lists()
     #
     # for term in terms_list_short:
     #     start_time = time.perf_counter()
@@ -154,11 +162,13 @@ if __name__ == '__main__':
     #     time_values.append(elapsed_time)
     #     fibonacci_values.append(value)
     #
+    # all_values["Recursive"] = time_values.copy()
+    # print(time_values)
     # plot_methods_values("short", "Recursive")
     #
     # print_short()
-
-    # ITERATIVE APPROACH
+    #
+    # # ITERATIVE APPROACH
     print("APPROACH: ITERATIVE")
     clear_lists()
 
@@ -170,6 +180,8 @@ if __name__ == '__main__':
         time_values.append(elapsed_time)
         fibonacci_values.append(value)
 
+    all_values["Iterative"] = time_values.copy()
+    print(time_values)
     plot_methods_values("short", "Iterative")
 
     print_short()
@@ -186,6 +198,7 @@ if __name__ == '__main__':
         time_values.append(elapsed_time)
         fibonacci_values.append(value)
 
+    all_values["Dynamic Programming"] = time_values.copy()
     plot_methods_values("short", "Dynamic Programming")
 
     print_short()
@@ -201,6 +214,7 @@ if __name__ == '__main__':
         time_values.append(elapsed_time)
         fibonacci_values.append(value)
 
+    all_values["Matrix"] = time_values.copy()
     plot_methods_values("short", " Nth Power of Matrix Approach")
 
     print_short()
@@ -217,6 +231,7 @@ if __name__ == '__main__':
         time_values.append(elapsed_time)
         fibonacci_values.append(value)
 
+    all_values["Binet's Formula"] = time_values.copy()
     plot_methods_values("short", "Binet's Formula")
 
     print_short()
@@ -233,13 +248,18 @@ if __name__ == '__main__':
         time_values.append(elapsed_time)
         fibonacci_values.append(value)
 
+    all_values["Fast Doubling"] = time_values.copy()
     plot_methods_values("short", "Fast Doubling")
 
     print_short()
 
+    print_short_comparison("short")
+
     # ITERATIVE APPROACH
     print("APPROACH: ITERATIVE")
     clear_lists()
+    all_values.clear()
+    comparison_table.clear()
 
     for term in terms_list_long:
         start_time = time.perf_counter()
@@ -249,6 +269,7 @@ if __name__ == '__main__':
         time_values.append(elapsed_time)
         fibonacci_values.append(value)
 
+    all_values["Iterative"] = time_values.copy()
     plot_methods_values("long", "Iterative")
 
     print_long()
@@ -265,6 +286,7 @@ if __name__ == '__main__':
         time_values.append(elapsed_time)
         fibonacci_values.append(value)
 
+    all_values["Dynamic Programming"] = time_values.copy()
     plot_methods_values("long", "Dynamic Programming")
 
     print_long()
@@ -280,6 +302,7 @@ if __name__ == '__main__':
         time_values.append(elapsed_time)
         fibonacci_values.append(value)
 
+    all_values["Matrix"] = time_values.copy()
     plot_methods_values("long", " Nth Power of Matrix Approach")
 
     print_long()
@@ -295,6 +318,7 @@ if __name__ == '__main__':
         elapsed_time = elapsed_time - start_time
         time_values.append(elapsed_time)
         fibonacci_values.append(value)
+    all_values["Binet's Formula"] = time_values.copy()
 
     plot_methods_values("long", "Binet's Formula")
 
@@ -312,6 +336,9 @@ if __name__ == '__main__':
         time_values.append(elapsed_time)
         fibonacci_values.append(value)
 
+    all_values["Fast Doubling"] = time_values.copy()
     plot_methods_values("long", "Fast Doubling")
 
     print_long()
+
+    print_short_comparison("long")
