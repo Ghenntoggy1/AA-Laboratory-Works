@@ -5,6 +5,7 @@
 import matplotlib.pyplot as plt
 import time
 from prettytable import PrettyTable
+from decimal import Decimal, getcontext
 
 
 def fibonacci_recursive(nth_term):
@@ -18,9 +19,7 @@ def fibonacci_recursive(nth_term):
 def fibonacci_iterative(nth_term):
     f_0 = 0
     f_1 = 1
-    if nth_term < 0:
-        return "Invalid input"
-    elif nth_term == 0:
+    if nth_term == 0:
         return f_0
     elif nth_term == 1:
         return f_1
@@ -32,12 +31,107 @@ def fibonacci_iterative(nth_term):
         return f_1
 
 
-def fibonacci_dynamic(nth_term):
+def fibonacci_dynamic_list(nth_term):
     lst = [0, 1]
 
     for current_term in range(2, nth_term + 1):
         lst.append(lst[current_term - 1] + lst[current_term - 2])
     return lst[nth_term]
+
+
+def fibonacci_matrix(nth_term):
+    F = [[1, 1],
+         [1, 0]]
+    if nth_term == 0:
+        return 0
+    power(F, nth_term - 1)
+
+    return F[0][0]
+
+
+def multiply(F, M):
+    x = (F[0][0] * M[0][0] +
+         F[0][1] * M[1][0])
+    y = (F[0][0] * M[0][1] +
+         F[0][1] * M[1][1])
+    z = (F[1][0] * M[0][0] +
+         F[1][1] * M[1][0])
+    w = (F[1][0] * M[0][1] +
+         F[1][1] * M[1][1])
+
+    F[0][0] = x
+    F[0][1] = y
+    F[1][0] = z
+    F[1][1] = w
+
+
+def power(F, n):
+    if n == 0 or n == 1:
+        return
+    M = [[1, 1],
+         [1, 0]]
+
+    power(F, n // 2)
+    multiply(F, F)
+
+    if n % 2 != 0:
+        multiply(F, M)
+
+
+def fibonacci_binet(nth_term):
+    # getcontext().prec = 1000
+    square_root = Decimal(5).sqrt()
+    phi = (1 + square_root) / 2
+    psi = (1 - square_root) / 2
+    val = (phi ** nth_term - psi ** nth_term) / square_root
+    return val
+
+
+def fibonacci_fast_doubling_main(nth_term):
+    return fibonacci_fast_doubling(nth_term)[0]
+
+
+def fibonacci_fast_doubling(nth_term):
+    if nth_term == 0:
+        return 0, 1
+    else:
+        a, b = fibonacci_fast_doubling(nth_term // 2)
+        c = a * (b * 2 - a)
+        d = a * a + b * b
+        if nth_term % 2 == 0:
+            return c, d
+        else:
+            return d, c + d
+
+
+def print_long():
+    pretty_table.add_column("nth Term", terms_list_long)
+    pretty_table.add_column("Time(s)", time_values)
+    print(pretty_table)
+
+
+def print_short():
+    pretty_table.add_column("nth Term", terms_list_short)
+    pretty_table.add_column("Time(s)", time_values)
+    pretty_table.add_column("Value", fibonacci_values)
+    print(pretty_table)
+
+
+def clear_lists():
+    pretty_table.clear()
+    fibonacci_values.clear()
+    time_values.clear()
+
+
+def plot_methods_values(type_list, function_name):
+    plt.plot(terms_list_short if type_list == "short" else terms_list_long,
+             time_values,
+             marker="o")
+    plt.title(f"Growth of Time Complexity in {function_name} Approach for Fibonacci Series")
+    plt.xlabel("n-th term")
+    plt.ylabel("Time (s)")
+    plt.grid(True)
+    plt.show()
 
 
 if __name__ == '__main__':
@@ -46,98 +140,178 @@ if __name__ == '__main__':
     fibonacci_values = []
 
     terms_list_short = [5, 7, 10, 12, 15, 17, 20, 22, 25, 27, 30, 32, 35, 37, 40, 42, 45]
-    terms_list_long = [500, 1000, 1585, 2512, 4000, 6310, 10000, 15849, 25000, 50000, 100000]
+    terms_list_long = [500, 1000, 1585, 2512, 4000, 6310, 10000, 15849, 25000, 50000, 100000, 150000, 200000]
 
     # RECURSIVE APPROACH
-
+    # print("APPROACH: RECURSIVE")
+    # clear_lists()
+    #
     # for term in terms_list_short:
     #     start_time = time.perf_counter()
     #     value = fibonacci_recursive(term)
-    #     elapsed_time = time.perf_counter()
-    #     elapsed_time = round(elapsed_time - start_time, 6)
-    #     time_values.append(elapsed_time)
-    #     fibonacci_values.append(value)
-    #
-    # plt.plot(terms_list_short,
-    #          time_values,
-    #          marker="o")
-    # plt.title("Growth of Time Complexity in Recursive Fibonacci Series")
-    # plt.xlabel("n-th term")
-    # plt.ylabel("Time (s)")
-    # plt.grid(True)
-    # plt.show()
-    #
-    # pretty_table.field_names = ["n"] + terms_list_short
-    # pretty_table.add_row(["Time(s)"] + time_values)
-    # print(pretty_table)
-
-    # ITERATIVE APPROACH
-    # pretty_table.clear()
-    # fibonacci_values.clear()
-    # time_values.clear()
-    # for term in terms_list_short:
-    #     start_time = time.perf_counter()
-    #     value = fibonacci_iterative(term)
     #     elapsed_time = time.perf_counter()
     #     elapsed_time = elapsed_time - start_time
     #     time_values.append(elapsed_time)
     #     fibonacci_values.append(value)
     #
-    # plt.plot(terms_list_short,
-    #          time_values,
-    #          marker="o")
-    # plt.title("Growth of Time Complexity in Iterative Algorithm for Fibonacci Series")
-    # plt.xlabel("n-th term")
-    # plt.ylabel("Time (s)")
-    # plt.grid(True)
-    # for i in range(len(terms_list_short)):
-    #     plt.text(terms_list_short[i],
-    #              time_values[i] + 0.00000003,
-    #              str(f"n={terms_list_short[i]} | ts={round(time_values[i], 12)}"),
-    #              ha='center',
-    #              bbox=dict(
-    #                  facecolor='white',
-    #                  edgecolor='black',
-    #                  boxstyle='round,pad=0.5')
-    #              )
-    # plt.show()
+    # plot_methods_values("short", "Recursive")
     #
-    # pretty_table.field_names = ["n"] + terms_list_short
-    # pretty_table.add_row(["Time(s)"] + time_values)
-    # print(pretty_table)
+    # print_short()
 
-    # DYNAMIC PROGRAMMING APPROACH
-    pretty_table.clear()
-    fibonacci_values.clear()
-    time_values.clear()
-    for term in terms_list_long:
+    # ITERATIVE APPROACH
+    print("APPROACH: ITERATIVE")
+    clear_lists()
+
+    for term in terms_list_short:
         start_time = time.perf_counter()
-        value = fibonacci_dynamic(term)
+        value = fibonacci_iterative(term)
         elapsed_time = time.perf_counter()
-        elapsed_time = round(elapsed_time - start_time, 6)
+        elapsed_time = elapsed_time - start_time
         time_values.append(elapsed_time)
         fibonacci_values.append(value)
 
-    plt.plot(terms_list_long,
-             time_values,
-             marker="o")
-    plt.title("Growth of Time Complexity in Dynamic Programming Algorithm for Fibonacci Series")
-    plt.xlabel("n-th term")
-    plt.ylabel("Time (s)")
-    plt.grid(True)
-    for i in range(len(terms_list_long)):
-        plt.text(terms_list_long[i],
-                 time_values[i] + 0.001,
-                 str(f"n={terms_list_long[i]} | ts={round(time_values[i], 12)}"),
-                 ha='center',
-                 bbox=dict(
-                     facecolor='white',
-                     edgecolor='black',
-                     boxstyle='round,pad=0.5')
-                 )
-    plt.show()
+    plot_methods_values("short", "Iterative")
 
-    pretty_table.field_names = ["n"] + terms_list_long
-    pretty_table.add_row(["Time(s)"] + time_values)
-    pretty_table.add_row(["nth Term"] + fibonacci_values)  # TODO: fix print
-    print(pretty_table)
+    print_short()
+
+    # DYNAMIC PROGRAMMING APPROACH
+    print("APPROACH: DYNAMIC PROGRAMMING")
+    clear_lists()
+
+    for term in terms_list_short:
+        start_time = time.perf_counter()
+        value = fibonacci_dynamic_list(term)
+        elapsed_time = time.perf_counter()
+        elapsed_time = elapsed_time - start_time
+        time_values.append(elapsed_time)
+        fibonacci_values.append(value)
+
+    plot_methods_values("short", "Dynamic Programming")
+
+    print_short()
+
+    # Nth POWER OF MATRIX APPROACH
+    print("APPROACH: Nth POWER OF MATRIX")
+    clear_lists()
+    for term in terms_list_short:
+        start_time = time.perf_counter()
+        value = fibonacci_matrix(term)
+        elapsed_time = time.perf_counter()
+        elapsed_time = elapsed_time - start_time
+        time_values.append(elapsed_time)
+        fibonacci_values.append(value)
+
+    plot_methods_values("short", " Nth Power of Matrix Approach")
+
+    print_short()
+
+    # BINET FORMULA APPROACH
+    print("APPROACH: BINET'S FORMULA")
+    clear_lists()
+
+    for term in terms_list_short:
+        start_time = time.perf_counter()
+        value = fibonacci_binet(term)
+        elapsed_time = time.perf_counter()
+        elapsed_time = elapsed_time - start_time
+        time_values.append(elapsed_time)
+        fibonacci_values.append(value)
+
+    plot_methods_values("short", "Binet's Formula")
+
+    print_short()
+
+    # FAST DOUBLING APPROACH
+    print("APPROACH: FAST DOUBLING")
+    clear_lists()
+
+    for term in terms_list_short:
+        start_time = time.perf_counter()
+        value = fibonacci_fast_doubling_main(term)
+        elapsed_time = time.perf_counter()
+        elapsed_time = elapsed_time - start_time
+        time_values.append(elapsed_time)
+        fibonacci_values.append(value)
+
+    plot_methods_values("short", "Fast Doubling")
+
+    print_short()
+
+    # ITERATIVE APPROACH
+    print("APPROACH: ITERATIVE")
+    clear_lists()
+
+    for term in terms_list_long:
+        start_time = time.perf_counter()
+        value = fibonacci_iterative(term)
+        elapsed_time = time.perf_counter()
+        elapsed_time = elapsed_time - start_time
+        time_values.append(elapsed_time)
+        fibonacci_values.append(value)
+
+    plot_methods_values("long", "Iterative")
+
+    print_long()
+
+    # DYNAMIC PROGRAMMING APPROACH
+    print("APPROACH: DYNAMIC PROGRAMMING")
+    clear_lists()
+
+    for term in terms_list_long:
+        start_time = time.perf_counter()
+        value = fibonacci_dynamic_list(term)
+        elapsed_time = time.perf_counter()
+        elapsed_time = elapsed_time - start_time
+        time_values.append(elapsed_time)
+        fibonacci_values.append(value)
+
+    plot_methods_values("long", "Dynamic Programming")
+
+    print_long()
+
+    # Nth POWER OF MATRIX APPROACH
+    print("APPROACH: Nth POWER OF MATRIX")
+    clear_lists()
+    for term in terms_list_long:
+        start_time = time.perf_counter()
+        value = fibonacci_matrix(term)
+        elapsed_time = time.perf_counter()
+        elapsed_time = elapsed_time - start_time
+        time_values.append(elapsed_time)
+        fibonacci_values.append(value)
+
+    plot_methods_values("long", " Nth Power of Matrix Approach")
+
+    print_long()
+
+    # BINET FORMULA APPROACH
+    print("APPROACH: BINET'S FORMULA")
+    clear_lists()
+
+    for term in terms_list_long:
+        start_time = time.perf_counter()
+        value = fibonacci_binet(term)
+        elapsed_time = time.perf_counter()
+        elapsed_time = elapsed_time - start_time
+        time_values.append(elapsed_time)
+        fibonacci_values.append(value)
+
+    plot_methods_values("long", "Binet's Formula")
+
+    print_long()
+
+    # FAST DOUBLING APPROACH
+    print("APPROACH: FAST DOUBLING")
+    clear_lists()
+
+    for term in terms_list_long:
+        start_time = time.perf_counter()
+        value = fibonacci_fast_doubling_main(term)
+        elapsed_time = time.perf_counter()
+        elapsed_time = elapsed_time - start_time
+        time_values.append(elapsed_time)
+        fibonacci_values.append(value)
+
+    plot_methods_values("long", "Fast Doubling")
+
+    print_long()
