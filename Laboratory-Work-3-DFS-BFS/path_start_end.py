@@ -8,7 +8,7 @@ import networkx as nx
 def dfs(graph, start, end):
     stack = [(start, [start])]
     while stack:
-        # print("DFS Stack:", stack)
+        print("DFS Stack:", stack)
         (node, path) = stack.pop()
         if node == end:
             return path
@@ -85,7 +85,7 @@ if __name__ == "__main__":
         #     end_node = int(input("Input End Node: "))
         # else:
         #     end_node = 1
-        end_node = num_nodes - 1
+        end_node = 10
 
         # Measure execution time for DFS
         start_time = time.time()

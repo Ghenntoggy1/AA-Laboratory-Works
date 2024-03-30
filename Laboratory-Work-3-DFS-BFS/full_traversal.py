@@ -153,13 +153,13 @@ def plot_traversed(G, bfs_nodes, dfs_nodes):
     plt.title("Graph with built-in BFS and DFS Traversal")
     plt.show()
 
-# lst_num_nodes = [15, 20, 25, 100, 500, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 11000, 12000, 15000, 20000, 25000, 30000]
-# lst_complete_graphs_wider_shallower = []
-# for num_nodes in lst_num_nodes:
-#     lst_complete_graphs_wider_shallower.append(generate_wider_shallower_graph(num_nodes))
-# graph_sizes, dfs_times, bfs_times = analyze_scalability(lst_complete_graphs_wider_shallower)
-#
-# plot_graphs(graph_sizes, dfs_times, bfs_times, "Wide Shallow Graphs")
+lst_num_nodes = [15, 20, 25, 100, 500, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 11000, 12000, 15000, 20000, 25000, 30000]
+lst_complete_graphs_wider_shallower = []
+for num_nodes in lst_num_nodes:
+    lst_complete_graphs_wider_shallower.append(generate_wider_shallower_graph(num_nodes))
+graph_sizes, dfs_times, bfs_times = analyze_scalability(lst_complete_graphs_wider_shallower)
+
+plot_graphs(graph_sizes, dfs_times, bfs_times, "Wide Shallow Graphs")
 
 lst_num_nodes = [15, 20, 25, 100, 500, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 11000, 12000, 15000, 20000, 25000, 30000]
 # lst_num_nodes = [15, 20, 25, 100, 500, 1000, 2000, 3000, 4000, 5000]

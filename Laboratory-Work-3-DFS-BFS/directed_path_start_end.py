@@ -5,7 +5,7 @@ import networkx as nx
 import numpy as np
 
 
-# Path from Start Node to End Node Complete/Incomplete Undirected Graphs
+# Path from Start Node to End Node Complete/Incomplete Directed Graphs
 def dfs(graph, start, end):
     stack = [(start, [start])]
     while stack:
@@ -49,19 +49,6 @@ def generate_random_graph(num_nodes):
     return G
 
 
-# Function to plot the graph
-# def plot_graph(graph, type_graphs, num_nodes):
-#     fig, ax = plt.subplots()
-#     G = nx.Graph()
-#     for node, neighbors in graph.items():
-#         for neighbor in neighbors:
-#             G.add_edge(node, neighbor)
-#     pos = nx.spring_layout(G)  # Compute node positions using spring layout
-#     nx.draw(G, pos, with_labels=True, node_size=300, node_color='skyblue', edge_color='gray', linewidths=0.5)
-#     limits = plt.axis('on')  # turns on axis
-#     ax.tick_params(left=True, bottom=True)
-#     plt.title(f'{type_graphs} with Number of Vertices = {num_nodes}')
-#     plt.show()
 def plot_graph(G, num_nodes):
     # Visualize the graph
     fig, ax = plt.subplots()
@@ -78,6 +65,35 @@ def print_adjacency_matrix(G):
     print("Adjacency Matrix:")
     print(adjacency_matrix)
 
+def plot_traversed_dfs(G, dfs_nodes):
+    fig, ax = plt.subplots()
+    # Visualize the graph and highlight visited nodes
+    pos = nx.spring_layout(G)  # Layout for better visualization
+    nx.draw(G, pos, with_labels=True, node_color='lightblue', node_size=500)
+    nx.draw_networkx_edges(G, pos)
+    nx.draw_networkx_edges(G, pos, edgelist=[(dfs_nodes[i], dfs_nodes[i+1]) for i in range(len(dfs_nodes)-1)], edge_color='r', width=2)
+
+    # Highlight starting node
+    nx.draw_networkx_nodes(G, pos, nodelist=[dfs_nodes[0]], node_color='g', node_size=700)
+    plt.title("Graph with DFS Traversal")
+    limits = plt.axis('on')  # turns on axis
+    ax.tick_params(left=True, bottom=True)
+    plt.show()
+
+def plot_traversed_bfs(G, bfs_nodes):
+    fig, ax = plt.subplots()
+    # Visualize the graph and highlight visited nodes
+    pos = nx.spring_layout(G)  # Layout for better visualization
+    nx.draw(G, pos, with_labels=True, node_color='lightblue', node_size=500)
+    nx.draw_networkx_edges(G, pos)
+    nx.draw_networkx_edges(G, pos, edgelist=[(bfs_nodes[i], bfs_nodes[i+1]) for i in range(len(bfs_nodes)-1)], edge_color='b', width=2)
+
+    # Highlight starting node
+    nx.draw_networkx_nodes(G, pos, nodelist=[bfs_nodes[0]], node_color='g', node_size=700)
+    limits = plt.axis('on')  # turns on axis
+    ax.tick_params(left=True, bottom=True)
+    plt.title("Graph with BFS Traversal")
+    plt.show()
 
 # Main function to measure execution times, plot the constructed graph, and plot the results
 if __name__ == "__main__":
@@ -99,7 +115,7 @@ if __name__ == "__main__":
             print("Plotting the constructed directed graph...")
             plot_graph(graph, num_nodes)
 
-        end_node = num_nodes - 1
+        end_node = 5
 
         # Measure execution time for DFS
         start_time = time.time()
@@ -109,6 +125,8 @@ if __name__ == "__main__":
         print("DFS Path: ", dfs_path)
         print("DFS Time: ", dfs_time)
         dfs_times.append(dfs_time)
+        if dfs_path is not None:
+            plot_traversed_dfs(graph, dfs_path)
 
         # Measure execution time for BFS
         start_time = time.time()
@@ -118,6 +136,8 @@ if __name__ == "__main__":
         print("BFS Path: ", bfs_path)
         print("BFS Time: ", bfs_time)
         bfs_times.append(bfs_time)
+        if bfs_path is not None:
+            plot_traversed_bfs(graph, bfs_path)
 
     # Plotting
     plt.plot(num_nodes_list, dfs_times, label='DFS')
