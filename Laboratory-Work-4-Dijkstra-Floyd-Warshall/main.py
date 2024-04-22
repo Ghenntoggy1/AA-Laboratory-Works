@@ -61,42 +61,37 @@ def generate_dense_graph(num_nodes):
     return graph
 
 
-
 def dijkstra(graph, start):
-    memo_distances = {}
-    memo_paths = {}
-
-    # If the result is already memoized, return it
-    if start in memo_distances:
-        return memo_distances[start], memo_paths[start]
-
-    queue = []
-    heapq.heappush(queue, (0, start))
-
+    # Initialize distances from start node to all other nodes as infinity
     distances = {node: float('inf') for node in graph}
     distances[start] = 0
 
-    previous_nodes = {node: None for node in graph}
+    # Set to keep track of visited nodes
+    visited = set()
 
-    while queue:
-        current_distance, current_node = heapq.heappop(queue)
+    while True:
+        # Find the node with the minimum distance from start among unvisited nodes
+        min_distance = float('inf')
+        min_node = None
+        for node in graph:
+            if node not in visited and distances[node] < min_distance:
+                min_distance = distances[node]
+                min_node = node
 
-        if current_distance > distances[current_node]:
-            continue
+        # If all nodes have been visited or there are no more reachable nodes, break
+        if min_node is None:
+            break
 
-        for neighbor, weight in graph[current_node].items():
-            distance = current_distance + weight
+        # Mark the minimum distance node as visited
+        visited.add(min_node)
 
+        # Update distances to neighbors of the current node
+        for neighbor, weight in graph[min_node].items():
+            distance = distances[min_node] + weight
             if distance < distances[neighbor]:
                 distances[neighbor] = distance
-                previous_nodes[neighbor] = current_node
-                heapq.heappush(queue, (distance, neighbor))
 
-    # Memoize the result for future use
-    memo_distances[start] = distances
-    memo_paths[start] = previous_nodes
-
-    return distances, previous_nodes
+    return distances
 
 
 def floyd_warshall(graph, start):
@@ -137,7 +132,7 @@ graph = {
 
 start_node = 'A'  # Specify the start node
 
-print("Dijkstra - Shortest distances from node", start_node, ":", dijkstra(graph, start_node)[0])
+print("Dijkstra - Shortest distances from node", start_node, ":", dijkstra(graph, start_node))
 print("Floyd-Warshall - Shortest distances from node", start_node, ":", floyd_warshall(graph, start_node))
 
 import time
@@ -189,7 +184,7 @@ def visualize_graph(graph):
 
 def measure_dijkstra_time(graph):
     start_time = time.time()
-    dijkstra_distances = dijkstra(graph, 0)[0]
+    dijkstra_distances = dijkstra(graph, 0)
     end_time = time.time()
     return end_time - start_time, dijkstra_distances
 
