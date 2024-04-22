@@ -27,7 +27,7 @@ def generate_sparse_graph(num_vertices):
     # Parameters
     num_nodes = num_vertices
     sparsity = 0.05  # Probability of edge creation
-    min_weight = 1
+    min_weight = 20
     max_weight = 20
 
     # Generate a random graph (Erdős-Rényi) with given sparsity
@@ -61,30 +61,42 @@ def generate_dense_graph(num_nodes):
     return graph
 
 
+
 def dijkstra(graph, start):
-    # Initialize distances from start node to all other nodes as infinity
+    memo_distances = {}
+    memo_paths = {}
+
+    # If the result is already memoized, return it
+    if start in memo_distances:
+        return memo_distances[start], memo_paths[start]
+
+    queue = []
+    heapq.heappush(queue, (0, start))
+
     distances = {node: float('inf') for node in graph}
     distances[start] = 0
 
-    # Priority queue to store nodes with their current distances from start
-    queue = [(0, start)]
+    previous_nodes = {node: None for node in graph}
 
     while queue:
         current_distance, current_node = heapq.heappop(queue)
 
-        # If current distance is greater than known distance, ignore
         if current_distance > distances[current_node]:
             continue
 
-        # Explore neighbors of current node
         for neighbor, weight in graph[current_node].items():
             distance = current_distance + weight
-            # If new distance is less than current known distance, update
+
             if distance < distances[neighbor]:
                 distances[neighbor] = distance
+                previous_nodes[neighbor] = current_node
                 heapq.heappush(queue, (distance, neighbor))
 
-    return distances
+    # Memoize the result for future use
+    memo_distances[start] = distances
+    memo_paths[start] = previous_nodes
+
+    return distances, previous_nodes
 
 
 def floyd_warshall(graph, start):
@@ -125,8 +137,8 @@ graph = {
 
 start_node = 'A'  # Specify the start node
 
-print("Shortest distances from node", start_node, ":", dijkstra(graph, start_node))
-print("Shortest distances from node", start_node, ":", floyd_warshall(graph, start_node))
+print("Dijkstra - Shortest distances from node", start_node, ":", dijkstra(graph, start_node)[0])
+print("Floyd-Warshall - Shortest distances from node", start_node, ":", floyd_warshall(graph, start_node))
 
 import time
 
@@ -177,7 +189,7 @@ def visualize_graph(graph):
 
 def measure_dijkstra_time(graph):
     start_time = time.time()
-    dijkstra_distances = dijkstra(graph, 0)
+    dijkstra_distances = dijkstra(graph, 0)[0]
     end_time = time.time()
     return end_time - start_time, dijkstra_distances
 
@@ -269,10 +281,10 @@ dense_graphs = []
 # Generate graphs
 for n in num_nodes:
     start_time = time.time()
-    sparse_graph = generate_graph(n, sparse=True)
+    sparse_graph = generate_sparse_graph(n)
     sparse_time = time.time() - start_time
     start_time = time.time()
-    dense_graph = generate_graph(n, sparse=False)
+    dense_graph = generate_dense_graph(n)
     dense_time = time.time() - start_time
     print("Number of nodes:", n)
     sparse_graphs.append(sparse_graph)
