@@ -8,7 +8,7 @@ import networkx as nx
 def dfs(graph, start, end):
     stack = [(start, [start])]
     while stack:
-        print("DFS Stack:", stack)
+        # print("DFS Stack:", stack)
         (node, path) = stack.pop()
         if node == end:
             return path
@@ -42,7 +42,7 @@ def generate_random_graph(num_nodes):
     for i in range(num_nodes):
         for j in range(i + 1, num_nodes):
             if random.random() < 1.1:  # Complete Undirected Graph
-            # if random.random() < 0.5:  # Incomplete Undirected Graph
+                # if random.random() < 0.5:  # Incomplete Undirected Graph
                 graph[i].append(j)
                 graph[j].append(i)
     return graph

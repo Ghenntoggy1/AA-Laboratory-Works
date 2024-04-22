@@ -59,11 +59,13 @@ def plot_graph(G, num_nodes):
     ax.tick_params(left=True, bottom=True)
     plt.show()
 
+
 # Function to print the adjacency matrix
 def print_adjacency_matrix(G):
     adjacency_matrix = nx.adjacency_matrix(G).todense()
     print("Adjacency Matrix:")
     print(adjacency_matrix)
+
 
 def plot_traversed_dfs(G, dfs_nodes):
     fig, ax = plt.subplots()
@@ -71,7 +73,8 @@ def plot_traversed_dfs(G, dfs_nodes):
     pos = nx.spring_layout(G)  # Layout for better visualization
     nx.draw(G, pos, with_labels=True, node_color='lightblue', node_size=500)
     nx.draw_networkx_edges(G, pos)
-    nx.draw_networkx_edges(G, pos, edgelist=[(dfs_nodes[i], dfs_nodes[i+1]) for i in range(len(dfs_nodes)-1)], edge_color='r', width=2)
+    nx.draw_networkx_edges(G, pos, edgelist=[(dfs_nodes[i], dfs_nodes[i + 1]) for i in range(len(dfs_nodes) - 1)],
+                           edge_color='r', width=2)
 
     # Highlight starting node
     nx.draw_networkx_nodes(G, pos, nodelist=[dfs_nodes[0]], node_color='g', node_size=700)
@@ -80,13 +83,15 @@ def plot_traversed_dfs(G, dfs_nodes):
     ax.tick_params(left=True, bottom=True)
     plt.show()
 
+
 def plot_traversed_bfs(G, bfs_nodes):
     fig, ax = plt.subplots()
     # Visualize the graph and highlight visited nodes
     pos = nx.spring_layout(G)  # Layout for better visualization
     nx.draw(G, pos, with_labels=True, node_color='lightblue', node_size=500)
     nx.draw_networkx_edges(G, pos)
-    nx.draw_networkx_edges(G, pos, edgelist=[(bfs_nodes[i], bfs_nodes[i+1]) for i in range(len(bfs_nodes)-1)], edge_color='b', width=2)
+    nx.draw_networkx_edges(G, pos, edgelist=[(bfs_nodes[i], bfs_nodes[i + 1]) for i in range(len(bfs_nodes) - 1)],
+                           edge_color='b', width=2)
 
     # Highlight starting node
     nx.draw_networkx_nodes(G, pos, nodelist=[bfs_nodes[0]], node_color='g', node_size=700)
@@ -95,9 +100,10 @@ def plot_traversed_bfs(G, bfs_nodes):
     plt.title("Graph with BFS Traversal")
     plt.show()
 
+
 # Main function to measure execution times, plot the constructed graph, and plot the results
 if __name__ == "__main__":
-    num_nodes_list = [10, 15, 25, 50, 75, 100] + [i for i in range(100, 2000, 50)]
+    num_nodes_list = [5, 10, 15, 25, 50, 75, 100] + [i for i in range(100, 1500, 50)]
 
     dfs_times = []
     bfs_times = []
@@ -111,11 +117,11 @@ if __name__ == "__main__":
         # Print the adjacency matrix
         # print_adjacency_matrix(graph)
         # Plot the constructed directed graph
-        if num_nodes <= 50:
+        if num_nodes <= 25:
             print("Plotting the constructed directed graph...")
             plot_graph(graph, num_nodes)
 
-        end_node = 5
+        end_node = num_nodes // 2
 
         # Measure execution time for DFS
         start_time = time.time()
@@ -125,7 +131,7 @@ if __name__ == "__main__":
         print("DFS Path: ", dfs_path)
         print("DFS Time: ", dfs_time)
         dfs_times.append(dfs_time)
-        if dfs_path is not None:
+        if dfs_path is not None and num_nodes <= 25:
             plot_traversed_dfs(graph, dfs_path)
 
         # Measure execution time for BFS
@@ -136,7 +142,7 @@ if __name__ == "__main__":
         print("BFS Path: ", bfs_path)
         print("BFS Time: ", bfs_time)
         bfs_times.append(bfs_time)
-        if bfs_path is not None:
+        if bfs_path is not None and num_nodes <= 25:
             plot_traversed_bfs(graph, bfs_path)
 
     # Plotting

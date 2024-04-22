@@ -40,6 +40,7 @@ class Graph:
                     visited[i] = True
                     queue.append(i)
 
+
 def measure_time(func, *args):
     start_time = time.time()
     func(*args)
@@ -55,7 +56,7 @@ def analyze_scalability(lst_graphs):
     for graph in lst_graphs:
         dfs_time = measure_time(graph.dfs, 0)
         bfs_time = measure_time(graph.bfs, 0)
-        # nx_graph = nx.Graph(graph.graph)
+        nx_graph = nx.Graph(graph.graph)
         # start_time = time.time()
         # dfs_nodes = dfs_edges(nx_graph, 0)
         # end_time = time.time()
@@ -68,14 +69,53 @@ def analyze_scalability(lst_graphs):
         print("Num Nodes:", len(graph.graph.keys()))
         print("DFS:", dfs_time)
         print("BFS:", bfs_time)
-
-        # plot_traversed(nx_graph, list(dfs_nodes), list(bfs_nodes))
+        # if len(graph.graph.keys()) <= 25:
+        #     print("DFS PATH:", list(dfs_nodes))
+        #     print("BFS PATH:", list(bfs_nodes))
+        # plot_traversed_dfs(nx_graph, list(dfs_nodes))
+        # plot_traversed_bfs(nx_graph, list(bfs_nodes))
 
         dfs_times.append(dfs_time)
         bfs_times.append(bfs_time)
         graph_sizes.append(len(graph.graph.keys()))
 
     return graph_sizes, dfs_times, bfs_times
+
+
+def plot_traversed_dfs(G, dfs_nodes):
+    fig, ax = plt.subplots()
+    # Visualize the graph and highlight visited nodes
+    pos = nx.spring_layout(G)  # Layout for better visualization
+    nx.draw(G, pos, with_labels=True, node_color='lightblue', node_size=500)
+    nx.draw_networkx_edges(G, pos)
+    for dfs_node in dfs_nodes:
+        nx.draw_networkx_edges(G, pos, edgelist=[(dfs_node[i], dfs_node[i + 1]) for i in range(len(dfs_node) - 1)],
+                               edge_color='r', width=2)
+
+        # Highlight starting node
+        nx.draw_networkx_nodes(G, pos, nodelist=[dfs_node[0]], node_color='g', node_size=700)
+    plt.title("Graph with DFS Traversal")
+    limits = plt.axis('on')  # turns on axis
+    ax.tick_params(left=True, bottom=True)
+    plt.show()
+
+
+def plot_traversed_bfs(G, bfs_nodes):
+    fig, ax = plt.subplots()
+    # Visualize the graph and highlight visited nodes
+    pos = nx.spring_layout(G)  # Layout for better visualization
+    nx.draw(G, pos, with_labels=True, node_color='lightblue', node_size=500)
+    nx.draw_networkx_edges(G, pos)
+    for bfs_node in bfs_nodes:
+        nx.draw_networkx_edges(G, pos, edgelist=[(bfs_node[i], bfs_node[i + 1]) for i in range(len(bfs_node) - 1)],
+                               edge_color='b', width=2)
+
+        # Highlight starting node
+        nx.draw_networkx_nodes(G, pos, nodelist=[bfs_node[0]], node_color='g', node_size=700)
+    limits = plt.axis('on')  # turns on axis
+    ax.tick_params(left=True, bottom=True)
+    plt.title("Graph with BFS Traversal")
+    plt.show()
 
 
 def generate_wider_shallower_graph(num_nodes):
@@ -139,6 +179,7 @@ def plot_graph(graph, type_graphs, num_nodes):
     plt.title(f'{type_graphs} with Number of Vertices = {num_nodes}')
     plt.show()
 
+
 def plot_traversed(G, bfs_nodes, dfs_nodes):
     # Visualize the graph and highlight visited nodes
     pos = nx.spring_layout(G)  # Layout for better visualization
@@ -153,7 +194,9 @@ def plot_traversed(G, bfs_nodes, dfs_nodes):
     plt.title("Graph with built-in BFS and DFS Traversal")
     plt.show()
 
-lst_num_nodes = [15, 20, 25, 100, 500, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 11000, 12000, 15000, 20000, 25000, 30000]
+
+lst_num_nodes = [15, 20, 25, 100, 500, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 11000, 12000, 15000,
+                 20000]
 lst_complete_graphs_wider_shallower = []
 for num_nodes in lst_num_nodes:
     lst_complete_graphs_wider_shallower.append(generate_wider_shallower_graph(num_nodes))
@@ -161,7 +204,8 @@ graph_sizes, dfs_times, bfs_times = analyze_scalability(lst_complete_graphs_wide
 
 plot_graphs(graph_sizes, dfs_times, bfs_times, "Wide Shallow Graphs")
 
-lst_num_nodes = [15, 20, 25, 100, 500, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 11000, 12000, 15000, 20000, 25000, 30000]
+lst_num_nodes = [15, 20, 25, 100, 500, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 11000, 12000, 15000,
+                 20000, 22500, 25000]
 # lst_num_nodes = [15, 20, 25, 100, 500, 1000, 2000, 3000, 4000, 5000]
 
 lst_complete_graphs_deep_narrow = []
