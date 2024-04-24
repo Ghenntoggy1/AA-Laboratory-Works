@@ -5,7 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eff80abe-708a-4934-88d7-d40b18184667" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Laboratory-Work-4-Dijkstra-Floyd-Warshall/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Laboratory-Work-4-Dijkstra-Floyd-Warshall/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,6 +44,7 @@
     "Python.Lab3.executor": "Run",
     "Python.afw.executor": "Run",
     "Python.afwfa.executor": "Run",
+    "Python.awfgaw.executor": "Run",
     "Python.directed_path_start_end.executor": "Run",
     "Python.faw.executor": "Run",
     "Python.full_traversal.executor": "Run",
@@ -144,7 +147,12 @@
       <workItem from="1712064215977" duration="623000" />
       <workItem from="1712140307076" duration="2469000" />
       <workItem from="1712259370859" duration="5000" />
-      <workItem from="1713805479200" duration="10409000" />
+      <workItem from="1713805479200" duration="13960000" />
+      <workItem from="1713872068886" duration="3280000" />
+      <workItem from="1713877198909" duration="5000" />
+      <workItem from="1713900750777" duration="10000" />
+      <workItem from="1713918723419" duration="150000" />
+      <workItem from="1713953424804" duration="3854000" />
     </task>
     <servers />
   </component>
@@ -158,9 +166,10 @@
     <SUITE FILE_PATH="coverage/AA_Laboratory_Works$full_traversal.coverage" NAME="full_traversal Coverage Results" MODIFIED="1712141054891" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Laboratory-Work-3-DFS-BFS" />
     <SUITE FILE_PATH="coverage/AA_Laboratory_Works$faw.coverage" NAME="faw Coverage Results" MODIFIED="1713808746330" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Laboratory-Work-4-Dijkstra-Floyd-Warshall" />
     <SUITE FILE_PATH="coverage/AA_Laboratory_Works$afw.coverage" NAME="afw Coverage Results" MODIFIED="1713808907087" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Laboratory-Work-4-Dijkstra-Floyd-Warshall" />
+    <SUITE FILE_PATH="coverage/AA_Laboratory_Works$awfgaw.coverage" NAME="awfgaw Coverage Results" MODIFIED="1713953562862" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Laboratory-Work-5-Prim-Kruskal" />
     <SUITE FILE_PATH="coverage/AA_Laboratory_Works$afwfa.coverage" NAME="afwfa Coverage Results" MODIFIED="1711748739729" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Laboratory-Work-3-DFS-BFS" />
     <SUITE FILE_PATH="coverage/AA_Laboratory_Works$directed_path_start_end.coverage" NAME="directed_path_start_end Coverage Results" MODIFIED="1712140695597" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Laboratory-Work-3-DFS-BFS" />
     <SUITE FILE_PATH="coverage/AA_Laboratory_Works$path_start_end.coverage" NAME="path_start_end Coverage Results" MODIFIED="1712140757624" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Laboratory-Work-3-DFS-BFS" />
-    <SUITE FILE_PATH="coverage/AA_Laboratory_Works$main.coverage" NAME="main Coverage Results" MODIFIED="1713813401324" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Laboratory-Work-4-Dijkstra-Floyd-Warshall" />
+    <SUITE FILE_PATH="coverage/AA_Laboratory_Works$main.coverage" NAME="main Coverage Results" MODIFIED="1713958246324" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Laboratory-Work-5-Prim-Kruskal" />
   </component>
 </project>
