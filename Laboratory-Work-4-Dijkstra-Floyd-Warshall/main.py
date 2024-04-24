@@ -146,12 +146,12 @@ dense_graphs = []
 # Generate graphs
 for n in num_nodes:
     start_time = time.time()
-    # sparse_graph = generate_graph(n, sparse=True)
-    sparse_graph = generate_sparse_graph(n)
+    sparse_graph = generate_graph(n, sparse=True)
+    # sparse_graph = generate_sparse_graph(n)
     sparse_time = time.time() - start_time
     start_time = time.time()
-    # dense_graph = generate_graph(n, sparse=False)
-    dense_graph = generate_dense_graph(n)
+    dense_graph = generate_graph(n, sparse=False)
+    # dense_graph = generate_dense_graph(n)
     dense_time = time.time() - start_time
     print("Number of nodes:", n)
     sparse_graphs.append(sparse_graph)
@@ -166,7 +166,7 @@ def visualize_graph(graph):
     pos = nx.spring_layout(G)  # positions for all nodes
 
     # Draw nodes
-    nx.draw_networkx_nodes(G, pos, node_size=700)
+    nx.draw_networkx_nodes(G, pos, node_size=400)
 
     # Draw edges
     nx.draw_networkx_edges(G, pos)
@@ -176,7 +176,7 @@ def visualize_graph(graph):
     nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels)
 
     # Draw node labels
-    nx.draw_networkx_labels(G, pos, font_size=20, font_family='sans-serif')
+    nx.draw_networkx_labels(G, pos, font_size=10, font_family='sans-serif')
 
     plt.axis('off')
     plt.show()
@@ -196,11 +196,11 @@ def measure_floyd_warshall_time(graph):
 
 
 # Visualize sparse graph
-visualize_graph(sparse_graphs[2])
-print(sparse_graphs[2])
+visualize_graph(sparse_graphs[1])
+print(sparse_graphs[1])
 # Visualize dense graph
-visualize_graph(dense_graphs[2])
-print(dense_graphs[2])
+visualize_graph(dense_graphs[1])
+print(dense_graphs[1])
 
 dijkstra_times_sparse = []
 floyd_times_sparse = []
@@ -265,8 +265,6 @@ plot_graphs_Floyd(graph_sizes=num_nodes, floyd_times_sparse=floyd_times_sparse, 
                   type_graphs="Sparse and Dense Graphs")
 plot_graphs_Dijkstra(graph_sizes=num_nodes, dijkstra_times_sparse=dijkstra_times_sparse,
                      dijkstra_times_dense=dijkstra_times_dense, type_graphs="Sparse and Dense Graphs")
-
-
 
 # Test parameters
 num_nodes = [500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000]
